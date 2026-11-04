@@ -1,0 +1,145 @@
+{
+  "name": "Your name",
+  "language": "English",
+  "timezone": "Africa/Casablanca",
+  "exam_date": "2028-05-15",
+  "exam_date_note": "ESTIMATE. Replace with the exact window once CFA Institute publishes the calendar.",
+  "registration_target": "2027-10-05",
+  "registration_note": "Register in the first week of October 2027, before the early-fee deadline.",
+  "weekly_hours_term": 20,
+  "weekly_hours_holiday": 30,
+  "weekly_hours_note": "CEILING, not a target. The lesson budget needs about 9-10 CFA h/week on average. The curriculum blocks set the actual load; the spare capacity is protection against exams, work and missed weeks.",
+  "lesson_budget_hours": 471,
+  "lesson_budget_note": "Sum of the 102 modules in plan/lessons.json: learn + practice + two spaced revisions. Add mocks, timed sets and remediation for a ~730 h programme.",
+  "english_minutes_per_day": 60,
+  "english_note": "Optional daily language block. Set it to 0 if you do not want it in the plan.",
+  "holiday_ranges": [
+    [
+      "2026-12-20",
+      "2027-01-03"
+    ],
+    [
+      "2027-06-15",
+      "2027-08-31"
+    ]
+  ],
+  "holiday_note": "During holidays the daytime block is free: add one longer weekday block.",
+  "study_days": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ],
+  "day_weights": {
+    "Mon": 18,
+    "Tue": 18,
+    "Wed": 18,
+    "Thu": 18,
+    "Fri": 12,
+    "Sat": 48,
+    "Sun": 48
+  },
+  "deadlines": [
+    {
+      "date": "2027-08-15",
+      "label": "Registration opens + scholarship window opens",
+      "lead_days": 14,
+      "critical": true
+    },
+    {
+      "date": "2027-09-01",
+      "label": "Scholarship window closes",
+      "lead_days": 21,
+      "critical": true
+    },
+    {
+      "date": "2027-10-05",
+      "label": "REGISTER: target date, early fee",
+      "lead_days": 21,
+      "critical": true
+    },
+    {
+      "date": "2027-10-14",
+      "label": "Early-fee deadline",
+      "lead_days": 10,
+      "critical": true
+    },
+    {
+      "date": "2028-02-16",
+      "label": "Scheduling deadline: book the test-centre slot",
+      "lead_days": 14,
+      "critical": true
+    },
+    {
+      "date": "2028-05-15",
+      "label": "EXAM (estimated window start)",
+      "lead_days": 30,
+      "critical": true
+    }
+  ],
+  "checkpoints": [
+    {"date": "2027-07-18", "label": "Half-length diagnostic (end of learn phase)", "target": 55},
+    {"date": "2027-09-26", "label": "Mock 1", "target": 55},
+    {"date": "2027-11-28", "label": "Mock 2 (end of official practice pass)", "target": 60},
+    {"date": "2027-12-20", "label": "Mock 3", "target": 65},
+    {"date": "2028-02-06", "label": "Mock 4", "target": 65},
+    {"date": "2028-02-13", "label": "Mock 5", "target": 65},
+    {"date": "2028-02-27", "label": "Mock 6", "target": 70},
+    {"date": "2028-03-12", "label": "Mock 7", "target": 70},
+    {"date": "2028-03-26", "label": "Mock 8", "target": 70},
+    {"date": "2028-04-02", "label": "Mock 9", "target": 70},
+    {"date": "2028-04-16", "label": "Mock 10", "target": 72},
+    {"date": "2028-05-01", "label": "Mock 11", "target": 72},
+    {"date": "2028-05-08", "label": "Mock 12 (last full mock)", "target": 75},
+    {"date": "2028-05-15", "label": "EXAM (estimated window start)", "target": 0}
+  ],
+  "background": [
+    "Your degree, your year, your graduation date",
+    "Your certifications",
+    "Your technical skills",
+    "What you want the CFA for"
+  ],
+  "strong_topics": [
+    "quantitative methods",
+    "valuation and financial modeling"
+  ],
+  "assumed_weak_topics_edit_me": [
+    "fixed income",
+    "derivatives",
+    "economics",
+    "ethics"
+  ],
+  "constraints": [
+    "Classes or work 08:00-17:00 on weekdays: study windows are evenings and the weekend",
+    "Exam periods: switch to a maintenance regime",
+    "Laptop dual-boots, so it is sometimes off"
+  ],
+  "resources": {
+    "books": [
+      "CFA Institute Standards of Practice Handbook (free PDF)",
+      "Mankiw - Principles of Economics",
+      "Krugman and Obstfeld - International Economics",
+      "Fabozzi - Bond Markets, Analysis, and Strategies",
+      "Hull - Options, Futures, and Other Derivatives",
+      "Bodie, Kane, Marcus - Investments",
+      "Fridson and Alvarez - Financial Statement Analysis",
+      "Brealey, Myers, Allen - Principles of Corporate Finance",
+      "Damodaran - Investment Valuation",
+      "Anderson, Sweeney, Williams - Statistics for Business and Economics"
+    ],
+    "coursera_courses": [],
+    "cfi_courses": [],
+    "coursera_courses_hint": "Paste the exact titles of the courses you want to use. Empty = the planner only suggests search keywords.",
+    "cfi_courses_hint": "Paste the exact titles before the access expires."
+  },
+  "cfi_access_until": "2027-05-31",
+  "coursera_access": "active subscription, no end date set",
+  "after_registration": {
+    "official_curriculum": "CFA Institute Learning Ecosystem",
+    "question_bank": "TBD (choose a provider after registering)"
+  },
+  "day_weights_note": "Proportional minutes: Mon-Thu 180 min, Fri 120, Sat 480, Sun 480. Adjust to your own week."
+}

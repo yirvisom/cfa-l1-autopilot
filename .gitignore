@@ -1,0 +1,27 @@
+# Local profile and logs: never publish your own study data by accident.
+profile.json
+progress.csv
+errors.csv
+mocks.csv
+.env
+
+# Generated plans and reviews
+plan/weeks/*.json
+plan/weeks/*.md
+plan/reviews/*.md
+!plan/weeks/.gitkeep
+!plan/reviews/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Excel lock files
+~$*.xlsx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp

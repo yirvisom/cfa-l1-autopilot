@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YIRVIEL CAPITAL — CFA Level I Operating Manual</title>
+<style>
+  :root{
+    --bg:#070b0c; --panel:#0f1517; --panel2:#121a1d; --line:#1e2a2e;
+    --gold:#d4af37; --gold-dim:#8c7426; --green:#00e676; --red:#ff5252;
+    --amber:#ffb300; --cyan:#4dd0e1; --purple:#b388ff;
+    --text:#d7e1e5; --muted:#8a9ba1; --white:#f2f7f8;
+    --mono:"Cascadia Mono",Consolas,"SFMono-Regular",monospace;
+    --sans:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+    --max:1050px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
+    font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(800px 400px at 75% -10%,rgba(212,175,55,.07),transparent 60%),
+      radial-gradient(600px 300px at 10% 0%,rgba(0,230,118,.04),transparent 60%);
+  }
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+  ::selection{background:#3a3115;color:#fff}
+  /* layout */
+  .shell{position:relative;z-index:1;display:grid;grid-template-columns:250px minmax(0,1fr);gap:0;max-width:1400px;margin:0 auto}
+  nav{
+    position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--line);
+    background:rgba(7,11,12,.7);backdrop-filter:blur(10px);overflow:auto
+  }
+  .brand{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--gold);margin-bottom:4px}
+  .brand small{display:block;letter-spacing:.16em;color:var(--muted);font-size:9px;margin-top:4px}
+  nav .tag{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.14em;margin:26px 0 10px}
+  nav a{display:block;color:var(--muted);font-size:13.5px;padding:6px 10px;border-left:2px solid transparent;border-radius:0 6px 6px 0}
+  nav a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+  nav a.active{color:var(--gold);border-left-color:var(--gold);background:linear-gradient(90deg,rgba(212,175,55,.09),transparent)}
+  main{padding:48px 54px 100px;max-width:var(--max)}
+  section{padding:44px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}
+  section:last-of-type{border-bottom:0}
+  h1,h2,h3{line-height:1.2;margin:0;font-weight:650;letter-spacing:-.02em}
+  h2{font-size:30px;margin-bottom:8px}
+  h3{font-size:17px;margin:26px 0 8px;color:var(--white)}
+  p{margin:10px 0;color:#c3d0d4}
+  .lead{font-size:18px;color:#cbd7da;max-width:70ch}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+  .num{font-family:var(--mono);color:var(--gold);font-size:12px;letter-spacing:.12em;display:block;margin-bottom:10px}
+  /* hero */
+  header.hero{
+    padding:34px 0 48px;border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(rgba(7,11,12,0),rgba(7,11,12,.4)),
+      repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.025) 79px 80px);
+  }
+  .hero h1{font-size:clamp(38px,5.2vw,62px);margin:14px 0 12px;letter-spacing:-.035em}
+  .hero h1 span{color:var(--gold)}
+  .hero .sub{font-size:18px;color:var(--muted);max-width:64ch}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:34px 0 0}
+  .stat{background:var(--panel);border:1px solid var(--line);padding:14px 14px 12px;border-radius:8px}
+  .stat b{display:block;font-family:var(--mono);font-size:24px;color:var(--white);letter-spacing:-.03em}
+  .stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-family:var(--mono)}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:6px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;border:1px solid var(--gold);
+    color:var(--gold);background:transparent;cursor:pointer
+  }
+  .btn:hover{background:rgba(212,175,55,.1);text-decoration:none}
+  .btn.solid{background:var(--gold);color:#0a0e0f;border-color:var(--gold);font-weight:700}
+  .btn.solid:hover{background:#e3c24e}
+  /* components */
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px}
+  .card h3{margin:0 0 6px;font-size:15px}
+  .card p{margin:6px 0;font-size:14px;color:var(--muted)}
+  .card .mono{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.08em}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(212,175,55,.07),transparent);padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0}
+  .callout.warn{border-color:var(--red);background:linear-gradient(90deg,rgba(255,82,82,.07),transparent)}
+  .callout.good{border-color:var(--green);background:linear-gradient(90deg,rgba(0,230,118,.06),transparent)}
+  .callout b{color:var(--white)}
+  .callout p{margin:4px 0;font-size:14px}
+  code.inline{font-family:var(--mono);font-size:.9em;background:#0b1113;border:1px solid var(--line);padding:1px 6px;border-radius:4px;color:var(--gold)}
+  pre{
+    position:relative;background:#080d0f;border:1px solid var(--line);border-radius:8px;
+    padding:16px 18px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.7;color:#cfe0e4;margin:12px 0
+  }
+  pre .c{color:var(--muted)}
+  pre .g{color:var(--green)}
+  pre .y{color:var(--gold)}
+  .copy{
+    position:absolute;top:8px;right:8px;background:#101719;border:1px solid var(--line);color:var(--muted);
+    font-family:var(--mono);font-size:10px;padding:4px 8px;border-radius:4px;cursor:pointer;letter-spacing:.06em
+  }
+  .copy:hover{color:var(--gold);border-color:var(--gold-dim)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;font-weight:500}
+  td{color:#c3d0d4}
+  tbody tr:hover{background:rgba(255,255,255,.02)}
+  td.r,th.r{text-align:right;font-family:var(--mono)}
+  .pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:2px 7px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  .pill.gold{color:var(--gold);border-color:var(--gold-dim)}
+  .pill.green{color:var(--green);border-color:#0b5a34}
+  .pill.red{color:var(--red);border-color:#5a1e1e}
+  .loop{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:20px 0}
+  .loop div{border:1px solid var(--line);border-radius:6px;padding:12px 8px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--panel)}
+  .loop div b{display:block;color:var(--text);font-family:var(--sans);font-size:13px;margin-bottom:2px}
+  .loop div:first-child{border-color:var(--gold-dim)}
+  .timeline{list-style:none;margin:18px 0;padding:0}
+  .timeline li{display:grid;grid-template-columns:86px 1fr;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .timeline li:last-child{border-bottom:0}
+  .timeline .t{font-family:var(--mono);color:var(--gold);font-size:12px}
+  .timeline .d{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .calc{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin:18px 0}
+  .calc .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .calc label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .calc input{width:100%;background:#080d0f;border:1px solid var(--line);color:var(--white);border-radius:5px;padding:9px 10px;font-family:var(--mono);font-size:15px}
+  .calc input:focus{outline:none;border-color:var(--gold-dim)}
+  .calc .out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .calc .out div{background:#0a1012;border:1px solid var(--line);border-radius:6px;padding:10px}
+  .calc .out b{display:block;font-family:var(--mono);font-size:20px;color:var(--white)}
+  .calc .out span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+  .verdict{margin-top:12px;font-size:13px;color:var(--muted)}
+  details{border:1px solid var(--line);border-radius:6px;padding:0 14px;margin:8px 0;background:var(--panel)}
+  details summary{cursor:pointer;padding:12px 0;font-size:14px;color:var(--text);font-weight:600}
+  details p{margin:0 0 12px;font-size:14px}
+  .files{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px}
+  .files div{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 12px;color:var(--muted)}
+  .files b{color:var(--text);font-family:var(--mono);font-size:12px;display:block;margin-bottom:2px}
+  footer{padding:34px 0 0;color:var(--muted);font-size:12px}
+  footer .sig{font-family:var(--mono);letter-spacing:.2em;color:var(--gold-dim);margin-bottom:8px}
+  @media (max-width:1000px){
+    .shell{grid-template-columns:1fr}
+    nav{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:18px}
+    nav .links{display:flex;flex-wrap:wrap;gap:4px}
+    nav a{display:inline-block;border-left:0;border-bottom:2px solid transparent;border-radius:0;padding:4px 8px;font-size:12px}
+    nav a.active{border-left:0;border-bottom-color:var(--gold);background:none}
+    nav .tag{display:none}
+    main{padding:28px 20px 70px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .g3,.g2,.loop,.calc .row,.calc .out,.files{grid-template-columns:1fr}
+  }
+  @media print{
+    body{background:#fff;color:#111}
+    body::before,nav,.copy,.hero-actions{display:none}
+    .shell{display:block}
+    main{max-width:none;padding:0}
+    section{border-color:#ddd;page-break-inside:avoid}
+    p,td{color:#222}
+    .card,pre,.calc,.files div{background:#fafafa;border-color:#ddd}
+    .num,.kicker,h2,strong{color:#111}
+    a{color:#111}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+<nav>
+  <div class="brand">YIRVIEL CAPITAL<small>CFA LEVEL I · MAY 2028</small></div>
+  <div class="links">
+    <div class="tag">THE SYSTEM</div>
+    <a href="#how">How it works</a>
+    <a href="#numbers">The numbers</a>
+    <a href="#daily">The daily loop</a>
+    <a href="#weekly">The weekly loop</a>
+    <div class="tag">LEARNING</div>
+    <a href="#method">The study method</a>
+    <a href="#errors">The error log</a>
+    <a href="#mocks">Mocks</a>
+    <a href="#adapt">Adaptation rules</a>
+    <div class="tag">OPERATIONS</div>
+    <a href="#commands">Command book</a>
+    <a href="#terminal">Terminal desk</a>
+    <a href="#firstweek">First week</a>
+    <a href="#trouble">Troubleshooting</a>
+  </div>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="kicker">Operating manual · v2 · 2027 curriculum</div>
+  <h1>Run the <span>desk</span>, not the syllabus.</h1>
+  <p class="sub">A lesson-level system for the CFA Level I. 102 modules, an hour budget per module, one honest log, and twelve mocks. The plan is the floor. The log is the truth.</p>
+  <div class="stats">
+    <div class="stat"><b>102</b><span>learning modules</span></div>
+    <div class="stat"><b>471 h</b><span>module work</span></div>
+    <div class="stat"><b>730 h</b><span>full programme</span></div>
+    <div class="stat"><b>12</b><span>full mocks</span></div>
+    <div class="stat"><b id="daysLeft">—</b><span>days to exam</span></div>
+  </div>
+  <div class="hero-actions">
+    <a class="btn solid" href="#daily">Start today →</a>
+    <a class="btn" href="#commands">Command book</a>
+    <a class="btn" href="#firstweek">First 7 days</a>
+  </div>
+</header>
+
+<section id="how">
+  <span class="num">01 / HOW IT WORKS</span>
+  <h2>Three decisions that make this different</h2>
+  <p class="lead">Most CFA plans fail for one of three reasons: they plan at topic level, they count reading as studying, or they never measure what was actually learned. This system fixes all three.</p>
+
+  <div class="grid g3" style="margin-top:20px">
+    <div class="card">
+      <div class="mono">01 · GRANULARITY</div>
+      <h3>Every module has a budget</h3>
+      <p>The 102 learning modules each carry learn / practice / review hours. A day is never "study fixed income" — it is LM56, 50 minutes, then 20 questions.</p>
+    </div>
+    <div class="card">
+      <div class="mono">02 · SEQUENCE</div>
+      <h3>Learn once, then practise</h3>
+      <p>Nov 2026 – Jul 2027 is the learn pass. Jul – Nov 2027 is the official practice pass. Then timed sets and mocks. No third full read.</p>
+    </div>
+    <div class="card">
+      <div class="mono">03 · MEASUREMENT</div>
+      <h3>The log is the source of truth</h3>
+      <p>Minutes per module, a score per question set, a why-line per miss, a score per mock. Unlogged study did not happen.</p>
+    </div>
+  </div>
+
+  <div class="loop">
+    <div><b>Learn</b>read + notes</div>
+    <div><b>Practise</b>questions, timed</div>
+    <div><b>Correct</b>every miss + why</div>
+    <div><b>Review</b>1 / 3 / 7 / 21 days</div>
+    <div><b>Mock</b>full conditions</div>
+  </div>
+
+  <div class="callout good">
+    <p><b>The honest number: ~9 CFA hours per week.</b> The 30 h/week ceiling in <code class="inline">profile.json</code> is a ceiling, not a target. The lesson budget needs about 9 h/week on average, with peaks of 19 h in the July 2027 holiday. The spare capacity is insurance against M2 exams, the PFE and missed weeks.</p>
+  </div>
+</section>
+
+<section id="numbers">
+  <span class="num">02 / THE NUMBERS</span>
+  <h2>Where the 471 hours go</h2>
+  <p class="lead">The budget follows your gaps, not the page count. Fixed Income is the largest block and your weakest, so it gets the most hours. Quant and Equity get less because you already own the underlying material.</p>
+
+  <table>
+    <thead><tr><th>Topic</th><th class="r">Weight</th><th class="r">Modules</th><th class="r">Learn</th><th class="r">Practice</th><th class="r">Revision</th><th class="r">Total</th></tr></thead>
+    <tbody>
+      <tr><td>Fixed Income</td><td class="r">11–14%</td><td class="r">19</td><td class="r">44.5</td><td class="r">33.5</td><td class="r">17.5</td><td class="r">95.5</td></tr>
+      <tr><td>Financial Statement Analysis</td><td class="r">11–14%</td><td class="r">12</td><td class="r">30.5</td><td class="r">23.5</td><td class="r">11.0</td><td class="r">65.0</td></tr>
+      <tr><td>Ethical and Professional Standards</td><td class="r">10–15%</td><td class="r">10</td><td class="r">25.0</td><td class="r">17.5</td><td class="r">10.0</td><td class="r">52.5</td></tr>
+      <tr><td>Derivatives and Risk Management</td><td class="r">5–8%</td><td class="r">10</td><td class="r">25.0</td><td class="r">17.5</td><td class="r">9.0</td><td class="r">51.5</td></tr>
+      <tr><td>Equity</td><td class="r">11–14%</td><td class="r">12</td><td class="r">22.0</td><td class="r">16.5</td><td class="r">8.0</td><td class="r">46.5</td></tr>
+      <tr><td>Economics</td><td class="r">6–9%</td><td class="r">8</td><td class="r">20.0</td><td class="r">13.0</td><td class="r">7.5</td><td class="r">40.5</td></tr>
+      <tr><td>Quantitative Methods</td><td class="r">11–14%</td><td class="r">11</td><td class="r">17.0</td><td class="r">14.0</td><td class="r">5.5</td><td class="r">36.5</td></tr>
+      <tr><td>Corporate Issuers</td><td class="r">6–9%</td><td class="r">7</td><td class="r">13.5</td><td class="r">10.5</td><td class="r">5.0</td><td class="r">29.0</td></tr>
+      <tr><td>Alternative Investments</td><td class="r">7–10%</td><td class="r">7</td><td class="r">13.5</td><td class="r">10.5</td><td class="r">4.0</td><td class="r">28.0</td></tr>
+      <tr><td>Portfolio Construction</td><td class="r">8–12%</td><td class="r">6</td><td class="r">12.5</td><td class="r">9.0</td><td class="r">4.5</td><td class="r">26.0</td></tr>
+      <tr><td><b>Total</b></td><td class="r"></td><td class="r"><b>102</b></td><td class="r"><b>223.5</b></td><td class="r"><b>165.5</b></td><td class="r"><b>82.0</b></td><td class="r"><b>471.0</b></td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Read the columns correctly.</b> <code class="inline">Learn</code> is one pass: read, own-words notes, formula-sheet entry, a few check questions. <code class="inline">Practice</code> is questions, timed, every miss corrected. <code class="inline">Revision</code> is <em>two</em> spaced passes — it is already in the total. Do not add a third full read.</p>
+
+  <h3>The phases</h3>
+  <table>
+    <thead><tr><th>Phase</th><th>Dates</th><th class="r">CFA h</th><th class="r">h/week*</th><th>Exit criterion</th></tr></thead>
+    <tbody>
+      <tr><td>Setup</td><td>26 Oct – 8 Nov 2026</td><td class="r">46</td><td class="r">30</td><td>Error log, formula sheet, baseline diagnostic</td></tr>
+      <tr><td>Learn</td><td>9 Nov 2026 – 18 Jul 2027</td><td class="r">323</td><td class="r">13.5–26</td><td>All 102 modules seen; half diagnostic ≥ 55%</td></tr>
+      <tr><td>Practice</td><td>19 Jul – 28 Nov 2027</td><td class="r">173</td><td class="r">15–18.5</td><td>Mock 2 ≥ 60%; every module marked done</td></tr>
+      <tr><td>Timed + mocks</td><td>29 Nov 2027 – 13 Feb 2028</td><td class="r">139</td><td class="r">10.5–29.5</td><td>Mock 3–5; average ≥ 65%</td></tr>
+      <tr><td>Final + taper</td><td>14 Feb – 14 May 2028</td><td class="r">95</td><td class="r">13–15.5</td><td>Mock average ≥ 70%; no new material after 3 Apr</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--muted)">* includes the 7 h/week English block. The full 102-row table lives in <code class="inline">plan/lessons.md</code>.</p>
+</section>
+
+<section id="daily">
+  <span class="num">03 / THE DAILY LOOP</span>
+  <h2>One hour of decisions, not three hours of guilt</h2>
+  <p class="lead">The system tells you what to do before you have to think about it. Your only job is to execute the named module and log it honestly.</p>
+
+  <ul class="timeline">
+    <li><span class="t">06:30</span><div><b>English, 60 min.</b> 30 min reading + 30 min speaking aloud. It is inside the weekly budget and is never cancelled.<div class="d">This is exam-reading training disguised as language practice.</div></div></li>
+    <li><span class="t">07:30</span><div><b>Run <code class="inline">cfa today</code>.</b> Read the target, the module ids, the due reviews and the next deadline. Close the terminal.<div class="d">Do not plan the day by hand. The plan is already made.</div></div></li>
+    <li><span class="t">19:30</span><div><b>One 60–75 min CFA block.</b> The task names the module and the action. Phone in another room, one tab open.<div class="d">Term: five weekday evenings, plus weekend mornings. Holiday: add 09:00–12:00.</div></div></li>
+    <li><span class="t">after</span><div><b>Log it immediately.</b> <code class="inline">cfa log "LM56 20 duration questions" 50 --lesson LM56 --score 70</code><div class="d">One row per session. Score only when it was a question set.</div></div></li>
+    <li><span class="t">22:30</span><div><b>Close the day.</b> <code class="inline">cfa nudge --final</code> or <code class="inline">cfa status</code>. If you did not finish, move it explicitly — never silently.<div class="d">A missed task that is moved is data. A missed task that is forgotten is a hole.</div></div></li>
+  </ul>
+
+  <div class="callout warn">
+    <p><b>Never log reading as practice.</b> If you read for 50 minutes and answered no questions, log 50 minutes against the module with no score. The analytics will show the difference between coverage and accuracy — and that difference is the whole game.</p>
+  </div>
+
+  <h3>What a correct log looks like</h3>
+  <pre><button class="copy">COPY</button><span class="c"># a learn session: minutes against the module, no score</span>
+cfa log "LM59 term structure, read + own notes" 55 --lesson LM59
+
+<span class="c"># a practice set: score it, so accuracy becomes measurable</span>
+cfa log "LM56 20 bond pricing questions" 45 --lesson LM56 --score 65
+
+<span class="c"># a spaced review: still the same module id</span>
+cfa log "LM93 review: 10 misses + flashcards" 20 --lesson LM93
+
+<span class="c"># a mixed timed set in the practice phase</span>
+cfa log "FI timed set 30q" 60 --topic "fixed income" --score 72</pre>
+</section>
+
+<section id="weekly">
+  <span class="num">04 / THE WEEKLY LOOP</span>
+  <h2>Sunday, 20 minutes, then close the laptop</h2>
+  <p class="lead">The week is generated on Sunday evening from the curriculum, your log, the due reviews and your open errors. You do not plan from scratch.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="mono">SUNDAY · 19:00</div>
+      <h3>The ritual</h3>
+      <p>1. <code class="inline">cfa review</code> — planned vs logged, last week.<br>
+         2. <code class="inline">cfa due</code> — what the spacing schedule wants.<br>
+         3. <code class="inline">cfa errors</code> — what is still open.<br>
+         4. <code class="inline">cfa week --next</code> — build next week.<br>
+         5. Read the plan once. Do not edit it.</p>
+    </div>
+    <div class="card">
+      <div class="mono">WHAT THE PLAN CONTAINS</div>
+      <h3>Modules, not topics</h3>
+      <p>Each week names the LM ids it covers, the minutes per day, the English block, a checkpoint and the mock calendar. If the model is unavailable, the deterministic fallback still names the right modules.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><b>The 60% rule.</b> If a week lands below 60% of planned minutes, next week cuts the lowest-value task. It never adds hours to catch up. The budget does not move; the content does.</p>
+  </div>
+</section>
+
+<section id="method">
+  <span class="num">05 / THE STUDY METHOD</span>
+  <h2>How to make a module stick</h2>
+  <p class="lead">The hour budget only works if the hour is spent correctly. Use this five-step loop for every module. It is slower on the first page and much faster by the mock.</p>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card"><div class="mono">STEP 1 · 5 MIN</div><h3>Preview</h3><p>Read the learning outcomes and the module summary. Write down three questions you expect the module to answer. This gives the reading a target.</p></div>
+    <div class="card"><div class="mono">STEP 2 · 40–70 MIN</div><h3>Learn once</h3><p>One pass. Own-words notes, formula-sheet entry, no highlighting, no copying the curriculum. If you cannot say it in your own words, you have not learned it.</p></div>
+    <div class="card"><div class="mono">STEP 3 · 20–40 MIN</div><h3>Practise immediately</h3><p>15–25 end-of-module questions, closed book, timed. Do not read the answer key while solving. Mark guesses; they are misses.</p></div>
+    <div class="card"><div class="mono">STEP 4 · 15–25 MIN</div><h3>Correct everything</h3><p>For every miss, write one why-line: what rule did I use, why was it wrong, what is the trigger next time. Redo the question from scratch. This is the highest-value 20 minutes in the system.</p></div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="mono">STEP 5 · 15–25 MIN, ON A SCHEDULE</div><h3>Space it</h3><p>Review the module 1, 3, 7 and 21 days later. A review is not a re-read: 10 missed questions, 10 flashcards, then explain the mechanism aloud as if teaching it. <code class="inline">cfa due</code> tells you which modules are due; log the review against the same LM id, which advances the interval.</p></div>
+
+  <h3>Why this works</h3>
+  <p><b>Retrieval practice</b> (trying to recall before looking) builds stronger memory than re-reading. <b>Spacing</b> forces recall when it is slightly hard, which is where learning happens. <b>Immediate correction</b> stops a wrong method from becoming automatic. <b>Interleaving</b> — mixing topics in timed sets — trains the exam skill of choosing the right tool, not just using it.</p>
+
+  <h3>Anti-patterns that feel productive</h3>
+  <table>
+    <thead><tr><th>Don't</th><th>Why</th><th>Do instead</th></tr></thead>
+    <tbody>
+      <tr><td>Re-read and highlight</td><td>Recognition, not recall</td><td>Close the book and write the mechanism</td></tr>
+      <tr><td>Watch videos at 2×</td><td>Passive, no feedback</td><td>15 questions after each video</td></tr>
+      <tr><td>Do questions with the answer visible</td><td>You are training the answer key</td><td>Timed set, then correct</td></tr>
+      <tr><td>Redo only the questions you got right</td><td>Comfort, not progress</td><td>Redo the misses from scratch</td></tr>
+      <tr><td>Count reading as practice</td><td>Inflates coverage, hides accuracy</td><td>Log the mode honestly</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exam technique to train from day one</h3>
+  <p>90 seconds per question. Two-pass strategy: answer everything you can in the first pass, flag the rest, return with 20 minutes left. Never leave a blank. Train the timing in every Saturday set — a correct answer that takes four minutes is a loss on a 180-question paper.</p>
+</section>
+
+<section id="errors">
+  <span class="num">06 / THE ERROR LOG</span>
+  <h2>Your error log is the real syllabus</h2>
+  <p class="lead">The curriculum tells you what can be asked. The error log tells you what <em>you</em> get wrong. By the practice phase, the error log should drive more of your week than the reading list.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="mono">HOW TO WRITE A WHY-LINE</div>
+      <h3>Three parts, one sentence each</h3>
+      <p><b>What I did:</b> "I used the coupon date instead of the settlement date."<br>
+         <b>Why it is wrong:</b> "Accrued interest runs from the last coupon to settlement."<br>
+         <b>Trigger:</b> "When I see clean price, check settlement first."</p>
+    </div>
+    <div class="card">
+      <div class="mono">CADENCE</div>
+      <h3>Add in correction, clear in review</h3>
+      <p>Add during the correction block of every practice set. Review open items for 5 minutes at the start of each session. Close an item only when you can redo the original question from scratch, without notes.</p>
+    </div>
+  </div>
+
+  <pre><button class="copy">COPY</button><span class="c"># add a miss</span>
+cfa error "confused accrued interest and clean price" --lesson LM56 --why "used coupon date instead of settlement"
+
+<span class="c"># see what is still open</span>
+cfa errors
+
+<span class="c"># close it when you can redo it cold</span>
+cfa close 4</pre>
+
+  <div class="callout good">
+    <p><b>Target: zero items older than 7 days by the final phase.</b> An error that stays open for a month is not an error log, it is a diary.</p>
+  </div>
+</section>
+
+<section id="mocks">
+  <span class="num">07 / MOCKS</span>
+  <h2>Twelve sittings, one protocol</h2>
+  <p class="lead">A mock is not a score. It is a four-hour diagnostic that tells you which 20% of the syllabus is costing you the other 80% of the marks.</p>
+
+  <table>
+    <thead><tr><th>Date</th><th>Event</th><th class="r">Target</th></tr></thead>
+    <tbody>
+      <tr><td>18 Jul 2027</td><td>Half-length diagnostic</td><td class="r">55%</td></tr>
+      <tr><td>26 Sep 2027</td><td>Mock 1</td><td class="r">55%</td></tr>
+      <tr><td>28 Nov 2027</td><td>Mock 2</td><td class="r">60%</td></tr>
+      <tr><td>20 Dec 2027</td><td>Mock 3</td><td class="r">65%</td></tr>
+      <tr><td>6 Feb 2028</td><td>Mock 4</td><td class="r">65%</td></tr>
+      <tr><td>13 Feb 2028</td><td>Mock 5</td><td class="r">65%</td></tr>
+      <tr><td>27 Feb 2028</td><td>Mock 6</td><td class="r">70%</td></tr>
+      <tr><td>12 Mar 2028</td><td>Mock 7</td><td class="r">70%</td></tr>
+      <tr><td>26 Mar 2028</td><td>Mock 8</td><td class="r">70%</td></tr>
+      <tr><td>2 Apr 2028</td><td>Mock 9</td><td class="r">70%</td></tr>
+      <tr><td>16 Apr 2028</td><td>Mock 10</td><td class="r">72%</td></tr>
+      <tr><td>1 May 2028</td><td>Mock 11</td><td class="r">72%</td></tr>
+      <tr><td>8 May 2028</td><td>Mock 12</td><td class="r">75%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid g3">
+    <div class="card"><div class="mono">BEFORE</div><h3>Exam conditions</h3><p>Same time of day as the real slot, 4.5 hours, no pause, no notes, one screen. Water. No phone. Treat it like the fee is already paid.</p></div>
+    <div class="card"><div class="mono">AFTER</div><h3>Four hours of correction</h3><p>Every question: right for the right reason, right by luck, or wrong. Classify each miss as knowledge, method, reading or time. Log the score and the top three causes.</p></div>
+    <div class="card"><div class="mono">NEXT WEEK</div><h3>One change only</h3><p>Below 55%: one remediation week on the two weakest topics. Above target: keep the plan, add timed sets, do not add modules.</p></div>
+  </div>
+
+  <pre><button class="copy">COPY</button>cfa mock 68 --note "FI slow, Ethics clean, ran out of time on Q142-160"
+cfa mock            <span class="c"># history, average, trend, next scheduled mock</span></pre>
+
+  <h3>The readiness index</h3>
+  <p><code class="inline">cfa analytics</code> computes a 0–100 index from three measured components: module coverage (40%), practice accuracy (35%) and mock average (25%). Missing components are reweighted, not treated as zero. It is a coaching index, not a predicted pass probability — use it to see which lever is short, not to feel good or bad.</p>
+</section>
+
+<section id="adapt">
+  <span class="num">08 / ADAPTATION</span>
+  <h2>What to do when the week goes wrong</h2>
+  <p class="lead">The plan is designed to bend. These are the only allowed moves. Anything else becomes a backlog, and backlogs kill 18-month plans.</p>
+
+  <table>
+    <thead><tr><th>Situation</th><th>Move</th></tr></thead>
+    <tbody>
+      <tr><td>A week below 60% of minutes</td><td>Cut the lowest-value task next week. Never add hours to catch up.</td></tr>
+      <tr><td>Behind the module schedule by &gt; 3 modules</td><td>Protect the learn block; drop the optional practice extras.</td></tr>
+      <tr><td>Ahead of schedule</td><td>Do not add new modules. Add question sets and bring the next mock forward one week.</td></tr>
+      <tr><td>Mock below 55%</td><td>One week of pure remediation on the two weakest topics, then resume. No date changes.</td></tr>
+      <tr><td>Same topic below 60% twice</td><td>Switch resource: own book → official curriculum, or the reverse.</td></tr>
+      <tr><td>Two consecutive missed weeks</td><td>Drop to 3 h/week for one week to restart the habit. Do not attempt the backlog.</td></tr>
+      <tr><td>M2 exams (Jan and May 2028)</td><td>January is a 5 h/week maintenance block. May is taper-only.</td></tr>
+      <tr><td>Registration not done by 14 Oct 2027</td><td>Stop the study plan. Fix the deadline first.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <p><b>The one fatal failure is silence.</b> If you fall off for a week, run <code class="inline">cfa status</code>, log what actually happened, and let the next plan adapt. The system can only help with the truth.</p>
+  </div>
+</section>
+
+<section id="commands">
+  <span class="num">09 / COMMAND BOOK</span>
+  <h2>The whole system in one screen</h2>
+  <p class="lead">Run these from the themed PowerShell. Everything is local except the optional weekly model call and the market quotes.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="mono">EVERY DAY</div>
+      <h3>Brief, log, close</h3>
+      <p><code class="inline">cfa today</code><br>
+         <code class="inline">cfa log "text" 50 --lesson LM56 --score 70</code><br>
+         <code class="inline">cfa due</code><br>
+         <code class="inline">cfa error "text" --lesson LM56 --why "cause"</code><br>
+         <code class="inline">cfa errors</code> · <code class="inline">cfa close 3</code><br>
+         <code class="inline">cfa nudge --final</code></p>
+    </div>
+    <div class="card">
+      <div class="mono">EVERY WEEK</div>
+      <h3>Review, plan, mock</h3>
+      <p><code class="inline">cfa review</code><br>
+         <code class="inline">cfa week --next</code><br>
+         <code class="inline">cfa mock 68 --note "..."</code> · <code class="inline">cfa mock</code><br>
+         <code class="inline">cfa analytics</code><br>
+         <code class="inline">cfa pace</code></p>
+    </div>
+    <div class="card">
+      <div class="mono">WHEN LOST</div>
+      <h3>Modules and health</h3>
+      <p><code class="inline">cfa lessons --next 8</code><br>
+         <code class="inline">cfa lessons --remaining</code><br>
+         <code class="inline">cfa lessons --topic fixed-income</code><br>
+         <code class="inline">cfa doctor</code><br>
+         <code class="inline">cfa guide</code><br>
+         <code class="inline">cfa tracker</code></p>
+    </div>
+    <div class="card">
+      <div class="mono">WHEN THE MODEL IS DOWN</div>
+      <h3>Offline is fine</h3>
+      <p><code class="inline">cfa week --offline</code> builds the week deterministically from <code class="inline">curriculum.json</code> + <code class="inline">lessons.json</code>. It names the right modules, respects the budget and includes due reviews. The system never leaves you without a plan.</p>
+    </div>
+  </div>
+
+  <h3>Logging rules</h3>
+  <table>
+    <thead><tr><th>Rule</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td>One row per session</td><td>The spacing schedule and the pace model both read the log.</td></tr>
+      <tr><td>Always pass <code class="inline">--lesson</code></td><td>Without it, the module cannot be marked done or scheduled for review.</td></tr>
+      <tr><td>Score only question sets</td><td>Accuracy must not be diluted by reading or video minutes.</td></tr>
+      <tr><td>Backfill, don't skip</td><td><code class="inline">--date 2027-05-12</code> keeps the history honest.</td></tr>
+      <tr><td>Log the review against the same LM</td><td>Each touch advances the interval: 1 → 3 → 7 → 21 → 45 days.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="terminal">
+  <span class="num">10 / THE TERMINAL DESK</span>
+  <h2>Same data, Bloomberg clothes</h2>
+  <p class="lead">The PowerShell theme reads the same files. It is a view, not a second plan — but it makes the daily check-in something you actually want to open.</p>
+
+  <div class="grid g3">
+    <div class="card"><div class="mono">COCKPIT</div><h3><code class="inline">cockpit</code></h3><p>Heatmap, CFA coverage by topic, deadlines and world sessions in one screen. <code class="inline">cockpit -fast</code> skips the live quotes.</p></div>
+    <div class="card"><div class="mono">COVERAGE</div><h3><code class="inline">sectors</code></h3><p>Hours logged vs budget per topic, with the module count. The same numbers as <code class="inline">cfa analytics</code>, as bars.</p></div>
+    <div class="card"><div class="mono">CFA</div><h3><code class="inline">study</code> · <code class="inline">pnl</code></h3><p>Short aliases for <code class="inline">cfa today</code> and <code class="inline">cfa status</code>, from inside the desk.</p></div>
+    <div class="card"><div class="mono">MARKET</div><h3><code class="inline">bb AAPL</code> · <code class="inline">heat</code></h3><p>Full quote card and market heatmap. <code class="inline">news AAPL</code>, <code class="inline">crypto</code>, <code class="inline">watch SPY QQQ</code>.</p></div>
+    <div class="card"><div class="mono">SYSTEM</div><h3><code class="inline">tape</code> · <code class="inline">risk</code></h3><p>Process tape and a CPU / memory / disk / battery risk report.</p></div>
+    <div class="card"><div class="mono">IF A COMMAND IS MISSING</div><h3><code class="inline">. $PROFILE</code></h3><p>PowerShell reads its profile once at startup. Dot-source it after an edit, or open a new tab.</p></div>
+  </div>
+</section>
+
+<section id="firstweek">
+  <span class="num">11 / FIRST WEEK</span>
+  <h2>Seven days to make the system real</h2>
+  <p class="lead">Do not wait for the perfect Monday. The setup block exists so the rest of the plan has a spine.</p>
+
+  <table>
+    <thead><tr><th>Day</th><th>Action</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code class="inline">cfa doctor</code>, <code class="inline">cfa today</code>, paste the DeepSeek key in <code class="inline">~/.config/cfa/env</code></td><td>No red flags; the day's plan prints.</td></tr>
+      <tr><td>2</td><td>Build the error log, formula-sheet skeleton (10 topic sections) and flashcard deck</td><td>All three files/sections exist.</td></tr>
+      <tr><td>3</td><td>Sit the 40-question baseline diagnostic, timed</td><td>Score logged by topic; 3 weakest topics named.</td></tr>
+      <tr><td>4–6</td><td>Follow <code class="inline">cfa today</code>; log every session; add every miss to the error log</td><td>At least 3 sessions and 5 error items.</td></tr>
+      <tr><td>7</td><td><code class="inline">cfa review</code>, <code class="inline">cfa due</code>, <code class="inline">cfa week --next</code>, <code class="inline">cfa pace</code></td><td>Next week exists; you know the three numbers.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="calc">
+    <div class="mono" style="color:var(--gold);font-size:11px;letter-spacing:.16em;margin-bottom:12px">PACE CALCULATOR</div>
+    <div class="row">
+      <div><label for="logged">Lesson hours already logged</label><input id="logged" type="number" min="0" max="471" step="1" value="0"></div>
+      <div><label for="perweek">Lesson hours per week you will actually do</label><input id="perweek" type="number" min="1" max="40" step="1" value="9"></div>
+    </div>
+    <div class="out">
+      <div><b id="rem">471 h</b><span>remaining</span></div>
+      <div><b id="weeks">52.3</b><span>weeks at this rate</span></div>
+      <div><b id="finish">—</b><span>projected finish</span></div>
+    </div>
+    <div class="verdict" id="verdict">—</div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted)">Tracks the 471 h lesson budget only. Add roughly 260 h of mocks and timed sets for the full programme (~9.3 CFA h/week on average). Exam date fixed at the current estimate: 15 May 2028. Change it in <code class="inline">profile.json</code> when CFA Institute publishes the real calendar.</p>
+</section>
+
+<section id="trouble">
+  <span class="num">12 / TROUBLESHOOTING</span>
+  <h2>When something does not fire</h2>
+
+  <details><summary><code class="inline">cfa</code> or <code class="inline">cockpit</code> is not recognised</summary><p>The shell was opened before the profile/theme was installed. Run <code class="inline">. $PROFILE</code>, or open a new tab. Verify with <code class="inline">Get-Command cfa, cockpit</code>.</p></details>
+  <details><summary>The weekly plan is generic and says “model unavailable”</summary><p>The DeepSeek key is missing or invalid in <code class="inline">~/.config/cfa/env</code>. The offline fallback is still valid and names the right modules; paste the key to get the adaptive version.</p></details>
+  <details><summary>No notifications arrive</summary><p>On Fedora the timers use <code class="inline">notify-send</code>. On Windows the theme writes to <code class="inline">~/.local/state/cfa/inbox.log</code>; the scheduled tasks can be registered with <code class="inline">install-cfa-tasks.ps1</code>. Every message is also in the inbox file.</p></details>
+  <details><summary>A quote says NO TAPE</summary><p>Yahoo did not answer within the timeout, or the symbol is wrong. The rest of the desk is unaffected. Try <code class="inline">quote AAPL</code> or use the correct ticker (<code class="inline">BTC-USD</code>, <code class="inline">EURUSD=X</code>).</p></details>
+  <details><summary>The exam date or a deadline changes</summary><p>Edit <code class="inline">profile.json</code> (single source of truth), then run <code class="inline">cfa week --force</code>. The countdown, phases and checkpoints follow.</p></details>
+  <details><summary>I missed two weeks</summary><p>Do not attempt the backlog. Run <code class="inline">cfa status</code>, log what happened, and follow the two-week rule: 3 h/week for one week to restart the habit, then resume the current week. The plan has slack for this.</p></details>
+  <details><summary>I want to study more than the plan</summary><p>Add question sets, not new modules, and bring the next mock forward one week. The plan is already 730 h; more reading is not the constraint.</p></details>
+
+  <h3>File map</h3>
+  <div class="files">
+    <div><b>profile.json</b>Exam date, ceilings, deadlines, mock checkpoints</div>
+    <div><b>plan/lessons.json</b>102 modules with learn / practice / review hours</div>
+    <div><b>plan/lessons.md</b>Readable 102-row table</div>
+    <div><b>plan/curriculum.json</b>17 dated blocks naming their modules</div>
+    <div><b>plan/master_plan.md</b>The curated roadmap and risk register</div>
+    <div><b>plan/weeks/</b>Generated weekly plans (.json + .md)</div>
+    <div><b>progress.csv</b>One row per session: date, minutes, topic, note, score, lesson</div>
+    <div><b>errors.csv</b>The error log: id, date, topic, lesson, note, why, status</div>
+    <div><b>mocks.csv</b>Mock history: date, score, note</div>
+    <div><b>guide.html</b>This manual</div>
+  </div>
+</section>
+
+<footer>
+  <div class="sig">YIRVIEL CAPITAL · TRADING DESK</div>
+  <p>The plan only works if the log is honest. One module, one session, one why-line, one mock at a time.</p>
+</footer>
+</main>
+</div>
+
+<script>
+  // days to exam (15 May 2028 estimate)
+  (function(){
+    var exam = new Date(2028, 4, 15);
+    var now = new Date();
+    var d = Math.ceil((exam - now) / 86400000);
+    var el = document.getElementById('daysLeft');
+    if (el) el.textContent = d > 0 ? d : '0';
+  })();
+
+  // copy buttons
+  document.addEventListener('click', function(e){
+    if (!e.target.classList.contains('copy')) return;
+    var pre = e.target.closest('pre');
+    var clone = pre.cloneNode(true);
+    var b = clone.querySelector('.copy'); if (b) b.remove();
+    var text = clone.textContent.replace(/^\s+|\s+$/g, '');
+    navigator.clipboard.writeText(text).then(function(){
+      e.target.textContent = 'COPIED';
+      setTimeout(function(){ e.target.textContent = 'COPY'; }, 1200);
+    }).catch(function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); e.target.textContent = 'COPIED'; }
+      catch (err) { e.target.textContent = 'FAILED'; }
+      document.body.removeChild(ta);
+      setTimeout(function(){ e.target.textContent = 'COPY'; }, 1200);
+    });
+  });
+
+  // active nav
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        links.forEach(function(a){ a.classList.remove('active'); });
+        var a = map[en.target.id];
+        if (a) a.classList.add('active');
+      });
+    }, {rootMargin:'-20% 0px -70% 0px'});
+    document.querySelectorAll('section[id]').forEach(function(s){ obs.observe(s); });
+  })();
+
+  // pace calculator
+  (function(){
+    var total = 471;
+    var exam = new Date(2028, 4, 15);
+    var logged = document.getElementById('logged');
+    var perweek = document.getElementById('perweek');
+    var rem = document.getElementById('rem');
+    var weeks = document.getElementById('weeks');
+    var finish = document.getElementById('finish');
+    var verdict = document.getElementById('verdict');
+    function months(d){
+      return d.toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+    }
+    function calc(){
+      var done = Math.max(0, Math.min(total, Number(logged.value) || 0));
+      var rate = Math.max(1, Number(perweek.value) || 1);
+      var left = Math.max(0, total - done);
+      var w = left / rate;
+      var now = new Date();
+      var f = new Date(now.getTime() + w * 7 * 86400000);
+      var weeksToExam = Math.max(0, (exam - now) / (7 * 86400000));
+      var required = left / Math.max(weeksToExam, 0.1);
+      rem.textContent = left.toFixed(0) + ' h';
+      weeks.textContent = w.toFixed(1);
+      finish.textContent = left === 0 ? 'done' : months(f);
+      var tone = f <= exam ? 'var(--green)' : 'var(--red)';
+      var label = f <= exam ? 'On time' : 'Late';
+      verdict.innerHTML = '<span style="color:' + tone + '">' + label + '.</span> ' +
+        'To finish by 15 May 2028 you need <b style="color:var(--white)">' + required.toFixed(1) +
+        ' h/week</b>. At ' + rate + ' h/week you finish ' + months(f) + '.';
+    }
+    logged.addEventListener('input', calc);
+    perweek.addEventListener('input', calc);
+    calc();
+  })();
+</script>
+</body>
+</html>
