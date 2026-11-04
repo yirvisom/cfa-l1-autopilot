@@ -180,7 +180,7 @@ Everything is local. There is no account, no sync service and no telemetry. If y
 Rebuild it after changing the plan:
 
 ```bash
-pip install openpyxl
+pip install -r requirements.txt
 python make_workbook.py
 ```
 
